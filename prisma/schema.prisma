@@ -1,0 +1,39 @@
+// Prisma schema for the Task Board app.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Connection URLs live in prisma.config.ts (Prisma 7).
+  // Runtime queries use the pg driver adapter in src/lib/prisma.ts.
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  tasks        Task[]
+}
+
+enum Status {
+  Todo
+  InProgress
+  Done
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  title     String
+  status    Status   @default(Todo)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
