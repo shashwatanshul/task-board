@@ -196,46 +196,72 @@ export default function TaskBoard() {
           {tasks.map((task) => (
             <li
               key={task.id}
-              className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+              className="group relative flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:border-slate-300 hover:shadow-md sm:flex-row sm:items-center sm:justify-between sm:p-5"
             >
-              <div className="flex items-center gap-3">
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_BADGE_CLASSES[task.status]}`}
-                >
-                  {STATUS_LABELS[task.status]}
+              <div className="flex flex-1 flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-4">
+                {/* Status and Title row */}
+                <div className="flex items-center justify-between gap-3 sm:w-28 sm:flex-shrink-0 sm:justify-start">
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide whitespace-nowrap ${STATUS_BADGE_CLASSES[task.status]}`}
+                  >
+                    {STATUS_LABELS[task.status]}
+                  </span>
+                  
+                  {/* Mobile-only saving spinner */}
+                  {updatingId === task.id && (
+                    <span
+                      className="flex items-center gap-1.5 text-xs font-medium text-slate-500 sm:hidden"
+                      role="status"
+                    >
+                      <Spinner />
+                      Saving...
+                    </span>
+                  )}
+                </div>
+
+                {/* Title */}
+                <span className="break-words text-sm font-medium text-slate-800 sm:text-base sm:font-normal">
+                  {task.title}
                 </span>
-                <span className="break-words text-slate-900">{task.title}</span>
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* Action area (Select input) */}
+              <div className="flex items-center justify-between border-t border-slate-100 pt-3 sm:border-t-0 sm:pt-0 sm:justify-end sm:gap-3">
+                {/* Desktop-only saving spinner */}
                 {updatingId === task.id && (
                   <span
-                    className="flex items-center gap-1 text-xs text-slate-500"
+                    className="hidden items-center gap-1.5 text-xs font-medium text-slate-500 sm:flex"
                     role="status"
                   >
                     <Spinner />
                     Saving...
                   </span>
                 )}
-                <label className="sr-only" htmlFor={`status-${task.id}`}>
-                  Update status
-                </label>
-                <select
-                  id={`status-${task.id}`}
-                  value={task.status}
-                  disabled={updatingId === task.id}
-                  aria-busy={updatingId === task.id}
-                  onChange={(e) =>
-                    handleStatusChange(task.id, e.target.value as TaskStatus)
-                  }
-                  className="cursor-pointer rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {STATUS_LABELS[status]}
-                    </option>
-                  ))}
-                </select>
+                
+                <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-end">
+                  <label 
+                    htmlFor={`status-${task.id}`}
+                    className="text-xs font-medium text-slate-500 sm:hidden"
+                  >
+                    Update status :
+                  </label>
+                  <select
+                    id={`status-${task.id}`}
+                    value={task.status}
+                    disabled={updatingId === task.id}
+                    aria-busy={updatingId === task.id}
+                    onChange={(e) =>
+                      handleStatusChange(task.id, e.target.value as TaskStatus)
+                    }
+                    className="cursor-pointer rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm outline-none transition-all hover:bg-slate-100 hover:border-slate-300 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {STATUSES.map((status) => (
+                      <option key={status} value={status}>
+                        {STATUS_LABELS[status]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </li>
           ))}

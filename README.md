@@ -1,6 +1,6 @@
 # Task Board
 
-A small full-stack Task Board where a user can sign up, log in, create tasks, view their own tasks, and update each task's status (Todo / In Progress / Done).
+A full-stack Task Board where a user can sign up, log in, create tasks, view their own tasks, and update each task's status (Todo / In Progress / Done).
 
 Live URL: _add after deploying to Vercel_
 
