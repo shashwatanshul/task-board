@@ -2,7 +2,10 @@
 
 A full-stack Task Board where a user can sign up, log in, create tasks, view their own tasks, and update each task's status (Todo / In Progress / Done).
 
-Live URL: _add after deploying to Vercel_
+Live URL: https://task-board-pi-eight.vercel.app/
+
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/7fb8213a-6dc7-427c-9df8-f4d377962663" />
+
 
 ## Tech Stack
 
